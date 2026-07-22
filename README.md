@@ -63,7 +63,8 @@ The package deliberately does not choose mouse buttons, movement keys, drag thre
 
 WebGL requests must still originate from an eligible user action. Request capture from the same Unity input update in which the application observes the initiating click. The bridge listens for browser `pointerlockchange`, `pointerlockerror`, page visibility, and window blur events and reports the resulting state back to C#.
 
+The package disables Unity's sticky WebGL cursor-lock mode so Unity follows the browser when lock is released instead of retaining or reasserting a centered lock state.
+
 ## Application boundary
 
 Keep orbit/fly modes, camera movement, drag thresholds, input bindings, UI blocking, and selection coordination in the application or their respective capability packages. Pointer Capture owns only permission and lifecycle around the cursor/pointer lock.
-

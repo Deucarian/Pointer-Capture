@@ -114,6 +114,17 @@ namespace Deucarian.PointerCapture.Tests
             Assert.AreEqual(0, CountOccurrences(source, "function deucarianPointerCaptureInstall"));
         }
 
+        [Test]
+        public void WebGlPlatformBridgeDisablesStickyCursorLock()
+        {
+            string root = PackageInfo.FindForAssembly(
+                typeof(DeucarianPointerCaptureController).Assembly).resolvedPath;
+            string source = File.ReadAllText(
+                Path.Combine(root, "Runtime/DeucarianPointerCapturePlatformBridge.cs"));
+
+            StringAssert.Contains("WebGLInput.stickyCursorLock = false", source);
+        }
+
         private static int CountOccurrences(string source, string value)
         {
             int count = 0;

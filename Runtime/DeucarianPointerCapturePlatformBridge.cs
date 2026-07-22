@@ -51,9 +51,10 @@ namespace Deucarian.PointerCapture
         public static void Initialize(bool releaseOnPageHidden)
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
-            // Browser events are authoritative; the controller restores Cursor.lockState
-            // when the bridge reports loss, so this does not depend on WebGLInput's
-            // sticky-cursor compatibility mode or its platform-only engine module.
+            // Keep Unity's lock state synchronized with the browser. In particular,
+            // releasing browser pointer lock must not leave Unity in its centered,
+            // sticky locked state or silently re-lock on the next canvas interaction.
+            WebGLInput.stickyCursorLock = false;
             DeucarianPointerCaptureSetReleaseOnPageHidden(releaseOnPageHidden ? 1 : 0);
 #endif
         }

@@ -1,7 +1,9 @@
 {
   "name": "Deucarian.PointerCapture",
   "rootNamespace": "Deucarian.PointerCapture",
-  "references": [],
+  "references": [
+    "UnityEngine.WebGLModule"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
