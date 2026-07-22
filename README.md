@@ -65,6 +65,8 @@ WebGL requests must still originate from an eligible user action. Request captur
 
 The package disables Unity's sticky WebGL cursor-lock mode so Unity follows the browser when lock is released instead of retaining or reasserting a centered lock state.
 
+On Editor and desktop players, the optional Input System adapter remembers the pointer position before capture and restores it after an intentional release. This adapter is enabled automatically when `com.unity.inputsystem` is installed, even when the application continues to use Legacy Input for its own controls. Focus loss, application pause, and page hiding deliberately skip cursor warping so the package never pulls the system pointer back into an inactive application.
+
 ## Application boundary
 
 Keep orbit/fly modes, camera movement, drag thresholds, input bindings, UI blocking, and selection coordination in the application or their respective capability packages. Pointer Capture owns only permission and lifecycle around the cursor/pointer lock.

@@ -9,6 +9,7 @@ namespace Deucarian.PointerCapture
     {
         [SerializeField] private bool allowCapture = true;
         [SerializeField] private bool hideCursor = true;
+        [SerializeField] private bool restorePointerPositionOnRelease = true;
         [SerializeField] private bool requireNeutralInputBeforeRearming = true;
         [SerializeField] private DeucarianPointerCaptureReleasePolicy releasePolicy =
             DeucarianPointerCaptureReleasePolicy.All;
@@ -22,6 +23,8 @@ namespace Deucarian.PointerCapture
         private bool applicationPaused;
         private CursorLockMode previousCursorLockMode = CursorLockMode.None;
         private bool previousCursorVisibility = true;
+        private Vector2 pointerPositionBeforeCapture;
+        private bool hasPointerPositionBeforeCapture;
         private DeucarianPointerCaptureState state = DeucarianPointerCaptureState.Idle;
         private DeucarianPointerCaptureReleaseReason lastReleaseReason =
             DeucarianPointerCaptureReleaseReason.None;
@@ -167,6 +170,10 @@ namespace Deucarian.PointerCapture
             owner = captureOwner;
             previousCursorLockMode = Cursor.lockState;
             previousCursorVisibility = Cursor.visible;
+            hasPointerPositionBeforeCapture =
+                restorePointerPositionOnRelease &&
+                DeucarianPointerCapturePlatformBridge.TryGetPointerPosition(
+                    out pointerPositionBeforeCapture);
             SetState(
                 DeucarianPointerCaptureState.Requested,
                 DeucarianPointerCaptureReleaseReason.None,
@@ -384,10 +391,13 @@ namespace Deucarian.PointerCapture
             {
                 DeucarianPointerCapturePlatformBridge.Release(
                     previousCursorLockMode,
-                    previousCursorVisibility);
+                    previousCursorVisibility,
+                    hasPointerPositionBeforeCapture && ShouldRestorePointerPosition(reason),
+                    pointerPositionBeforeCapture);
             }
 
             owner = null;
+            hasPointerPositionBeforeCapture = false;
             if (blockUntilNewAction)
             {
                 rearmGate.BlockUntilNewAction(requireNeutralInputBeforeRearming);
@@ -399,6 +409,14 @@ namespace Deucarian.PointerCapture
             }
 
             SetState(targetState, reason, message);
+        }
+
+        private static bool ShouldRestorePointerPosition(
+            DeucarianPointerCaptureReleaseReason reason)
+        {
+            return reason != DeucarianPointerCaptureReleaseReason.FocusLost &&
+                   reason != DeucarianPointerCaptureReleaseReason.ApplicationPaused &&
+                   reason != DeucarianPointerCaptureReleaseReason.PageHidden;
         }
 
         private DeucarianPointerCaptureReleaseReason GetPolicyFailureReason()

@@ -102,13 +102,33 @@ namespace Deucarian.PointerCapture
 #endif
         }
 
-        public static void Release(CursorLockMode restoreLockMode, bool restoreVisibility)
+        public static bool TryGetPointerPosition(out Vector2 position)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            position = default;
+            return false;
+#else
+            return DeucarianPointerCapturePointerPosition.TryGetPosition(out position);
+#endif
+        }
+
+        public static void Release(
+            CursorLockMode restoreLockMode,
+            bool restoreVisibility,
+            bool restorePointerPosition,
+            Vector2 pointerPosition)
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             DeucarianPointerCaptureRelease();
 #endif
             Cursor.lockState = restoreLockMode;
             Cursor.visible = restoreVisibility;
+#if !UNITY_WEBGL || UNITY_EDITOR
+            if (restorePointerPosition && restoreLockMode != CursorLockMode.Locked)
+            {
+                DeucarianPointerCapturePointerPosition.TrySetPosition(pointerPosition);
+            }
+#endif
         }
     }
 }

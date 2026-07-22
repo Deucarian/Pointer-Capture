@@ -1,0 +1,25 @@
+{
+  "name": "Deucarian.PointerCapture.InputSystem",
+  "rootNamespace": "Deucarian.PointerCapture.InputSystem",
+  "references": [
+    "Deucarian.PointerCapture",
+    "Unity.InputSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "DEUCARIAN_INPUT_SYSTEM_INSTALLED"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.inputsystem",
+      "expression": "1.0.0",
+      "define": "DEUCARIAN_INPUT_SYSTEM_INSTALLED"
+    }
+  ],
+  "noEngineReferences": false
+}

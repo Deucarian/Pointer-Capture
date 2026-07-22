@@ -50,7 +50,7 @@ namespace Deucarian.PointerCapture.Editor
 
                 DeucarianEditorChrome.DrawFooterVersion(
                     "com.deucarian.pointer-capture",
-                    "0.1.1");
+                    "0.1.2");
                 EditorGUILayout.EndScrollView();
             }
         }
@@ -173,6 +173,8 @@ namespace Deucarian.PointerCapture.Editor
                     serializedController.Update();
                     EditorGUILayout.PropertyField(serializedController.FindProperty("allowCapture"));
                     EditorGUILayout.PropertyField(serializedController.FindProperty("hideCursor"));
+                    EditorGUILayout.PropertyField(
+                        serializedController.FindProperty("restorePointerPositionOnRelease"));
                     EditorGUILayout.PropertyField(
                         serializedController.FindProperty("requireNeutralInputBeforeRearming"));
                     EditorGUILayout.PropertyField(serializedController.FindProperty("releasePolicy"));

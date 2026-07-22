@@ -1,6 +1,6 @@
 {
   "name": "com.deucarian.pointer-capture",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "displayName": "Deucarian Pointer Capture",
   "description": "Cross-platform pointer-lock lifecycle, policy, diagnostics, and WebGL integration for Unity applications.",
   "unity": "2022.3",

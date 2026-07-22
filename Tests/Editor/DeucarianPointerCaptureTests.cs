@@ -125,6 +125,26 @@ namespace Deucarian.PointerCapture.Tests
             StringAssert.Contains("WebGLInput.stickyCursorLock = false", source);
         }
 
+        [Test]
+        public void PointerPositionAdapterRoundTripsCapturedCoordinates()
+        {
+            var adapter = new FakePointerPositionAdapter(new Vector2(123f, 456f));
+            DeucarianPointerCapturePointerPosition.RegisterAdapter(adapter);
+            try
+            {
+                Assert.IsTrue(
+                    DeucarianPointerCapturePointerPosition.TryGetPosition(out Vector2 captured));
+                Assert.AreEqual(new Vector2(123f, 456f), captured);
+
+                Assert.IsTrue(DeucarianPointerCapturePointerPosition.TrySetPosition(captured));
+                Assert.AreEqual(captured, adapter.RestoredPosition);
+            }
+            finally
+            {
+                DeucarianPointerCapturePointerPosition.RegisterAdapter(null);
+            }
+        }
+
         private static int CountOccurrences(string source, string value)
         {
             int count = 0;
@@ -136,6 +156,30 @@ namespace Deucarian.PointerCapture.Tests
             }
 
             return count;
+        }
+
+        private sealed class FakePointerPositionAdapter : IDeucarianPointerPositionAdapter
+        {
+            private readonly Vector2 position;
+
+            public FakePointerPositionAdapter(Vector2 position)
+            {
+                this.position = position;
+            }
+
+            public Vector2 RestoredPosition { get; private set; }
+
+            public bool TryGetPosition(out Vector2 currentPosition)
+            {
+                currentPosition = position;
+                return true;
+            }
+
+            public bool TrySetPosition(Vector2 currentPosition)
+            {
+                RestoredPosition = currentPosition;
+                return true;
+            }
         }
     }
 }

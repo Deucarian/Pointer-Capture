@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2026-07-23
+
+### Fixed
+
+- Added optional Input System cursor-position capture and restoration so Editor and desktop releases return the pointer to its pre-capture location instead of leaving it centered.
+
 ## [0.1.1] - 2026-07-23
 
 ### Fixed

@@ -5,7 +5,8 @@
     "pointer-capture"
   ],
   "runtimeAssemblies": [
-    "Deucarian.PointerCapture"
+    "Deucarian.PointerCapture",
+    "Deucarian.PointerCapture.InputSystem"
   ],
   "editorAssemblies": [
     "Deucarian.PointerCapture.Editor"
@@ -19,7 +20,9 @@
   "requiredDependencies": [
     "com.deucarian.editor"
   ],
-  "optionalVersionDefinedDependencies": [],
+  "optionalVersionDefinedDependencies": [
+    "com.unity.inputsystem"
+  ],
   "allowedDirectDebugCalls": [],
   "allowedDirectUnityObjectLifetimeCalls": [],
   "expectedSamplesRoot": "Samples~",
