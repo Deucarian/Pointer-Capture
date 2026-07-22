@@ -1,0 +1,32 @@
+{
+  "name": "com.deucarian.pointer-capture",
+  "version": "0.1.0",
+  "displayName": "Deucarian Pointer Capture",
+  "description": "Cross-platform pointer-lock lifecycle, policy, diagnostics, and WebGL integration for Unity applications.",
+  "unity": "2022.3",
+  "author": {
+    "name": "Deucarian"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deucarian/Pointer-Capture.git"
+  },
+  "keywords": [
+    "deucarian",
+    "pointer-lock",
+    "mouse-capture",
+    "webgl",
+    "interaction"
+  ],
+  "dependencies": {
+    "com.deucarian.editor": "1.0.5"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Pointer Capture",
+      "description": "Input-system-neutral pointer capture with explicit rearming and runtime status.",
+      "path": "Samples~/Basic Pointer Capture"
+    }
+  ]
+}
+

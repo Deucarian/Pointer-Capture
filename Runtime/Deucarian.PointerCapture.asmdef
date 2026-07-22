@@ -1,0 +1,14 @@
+{
+  "name": "Deucarian.PointerCapture",
+  "rootNamespace": "Deucarian.PointerCapture",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

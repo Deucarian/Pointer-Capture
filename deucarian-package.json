@@ -1,0 +1,27 @@
+{
+  "packageId": "com.deucarian.pointer-capture",
+  "displayName": "Deucarian Pointer Capture",
+  "ownedCapabilities": [
+    "pointer-capture"
+  ],
+  "runtimeAssemblies": [
+    "Deucarian.PointerCapture"
+  ],
+  "editorAssemblies": [
+    "Deucarian.PointerCapture.Editor"
+  ],
+  "sampleAssemblies": [
+    "Deucarian.PointerCapture.Samples.Basic"
+  ],
+  "testAssemblies": [
+    "Deucarian.PointerCapture.Tests.Editor"
+  ],
+  "requiredDependencies": [
+    "com.deucarian.editor"
+  ],
+  "optionalVersionDefinedDependencies": [],
+  "allowedDirectDebugCalls": [],
+  "allowedDirectUnityObjectLifetimeCalls": [],
+  "expectedSamplesRoot": "Samples~",
+  "samplePolicy": "compiled-example"
+}
