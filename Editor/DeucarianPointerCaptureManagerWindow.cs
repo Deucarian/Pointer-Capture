@@ -49,8 +49,7 @@ namespace Deucarian.PointerCapture.Editor
                 DrawValidationAndFixes();
 
                 DeucarianEditorChrome.DrawFooterVersion(
-                    "com.deucarian.pointer-capture",
-                    "0.1.2");
+                    "com.deucarian.pointer-capture");
                 EditorGUILayout.EndScrollView();
             }
         }
