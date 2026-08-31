@@ -81,17 +81,14 @@ namespace Deucarian.PointerCapture.Tests
         }
 
         [Test]
-        public void PackageHasOneManagementMenuAndIntegratedValidation()
+        public void PackageUsesControlCenterAndIntegratedValidation()
         {
             string root = PackageInfo.FindForAssembly(
                 typeof(DeucarianPointerCaptureManagerWindow).Assembly).resolvedPath;
             string source = File.ReadAllText(
                 Path.Combine(root, "Editor/DeucarianPointerCaptureManagerWindow.cs"));
 
-            StringAssert.Contains(
-                "Tools/Deucarian/Interaction/Pointer Capture",
-                source);
-            Assert.AreEqual(1, CountOccurrences(source, "[MenuItem("));
+            Assert.AreEqual(0, CountOccurrences(source, "[MenuItem("));
             StringAssert.Contains("Validation & Fixes", source);
         }
 

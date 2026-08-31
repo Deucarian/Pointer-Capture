@@ -2,6 +2,7 @@
   "name": "Deucarian.PointerCapture.Tests.Editor",
   "rootNamespace": "Deucarian.PointerCapture.Tests",
   "references": [
+    "Deucarian.Editor",
     "Deucarian.PointerCapture",
     "Deucarian.PointerCapture.Editor"
   ],
