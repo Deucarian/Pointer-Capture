@@ -7,13 +7,11 @@ namespace Deucarian.PointerCapture.Editor
 {
     public sealed class DeucarianPointerCaptureManagerWindow : EditorWindow
     {
-        public const string MenuPath = "Tools/Deucarian/Interaction/Pointer Capture";
         public const string CanonicalSettingsAssetPath =
             "Assets/Resources/Deucarian/PointerCaptureSettings.asset";
 
         private Vector2 scrollPosition;
 
-        [MenuItem(MenuPath, priority = 230)]
         public static void OpenWindow()
         {
             DeucarianPointerCaptureManagerWindow window =

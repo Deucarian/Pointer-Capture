@@ -8,7 +8,7 @@ Install the package through the Deucarian Package Installer or add its Git URL t
 
 Open the package window at:
 
-`Tools > Deucarian > Interaction > Pointer Capture`
+**Deucarian Control Center > Experience > Pointer Capture**
 
 Configuration, runtime status, validation, and fix actions all live in this one window.
 
