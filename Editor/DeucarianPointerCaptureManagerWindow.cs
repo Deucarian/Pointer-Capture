@@ -7,13 +7,11 @@ namespace Deucarian.PointerCapture.Editor
 {
     public sealed class DeucarianPointerCaptureManagerWindow : EditorWindow
     {
-        public const string MenuPath = "Tools/Deucarian/Interaction/Pointer Capture";
         public const string CanonicalSettingsAssetPath =
             "Assets/Resources/Deucarian/PointerCaptureSettings.asset";
 
         private Vector2 scrollPosition;
 
-        [MenuItem(MenuPath, priority = 230)]
         public static void OpenWindow()
         {
             DeucarianPointerCaptureManagerWindow window =
@@ -49,8 +47,7 @@ namespace Deucarian.PointerCapture.Editor
                 DrawValidationAndFixes();
 
                 DeucarianEditorChrome.DrawFooterVersion(
-                    "com.deucarian.pointer-capture",
-                    "0.1.2");
+                    "com.deucarian.pointer-capture");
                 EditorGUILayout.EndScrollView();
             }
         }
