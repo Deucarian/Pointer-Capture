@@ -5,6 +5,9 @@ Repository: `Deucarian/Pointer-Capture`
 
 Follow the canonical Deucarian governance docs in Package Registry, especially capability ownership and dependency rules.
 
+Canonical architecture standard:
+https://github.com/Deucarian/Package-Registry/blob/main/ARCHITECTURE.md
+
 ## Ownership
 
 This package owns:
