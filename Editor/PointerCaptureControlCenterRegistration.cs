@@ -23,7 +23,7 @@ namespace Deucarian.PointerCapture.Editor
                     DeucarianPointerCaptureManagerWindow.OpenWindow,
                     PackageId,
                     searchTerms: new[] { "pointer", "cursor", "lock", "webgl" },
-                    order: 120));
+                    order: 120, createPage: DeucarianPointerCaptureManagerWindow.CreatePage));
 
             CardRegistration = DeucarianControlCenterRegistry.RegisterCardProvider(
                 new PointerCaptureCardProvider());
@@ -78,7 +78,7 @@ namespace Deucarian.PointerCapture.Editor
                             new DeucarianControlCenterAction(
                                 PackageId + ".open",
                                 "Open Pointer Capture",
-                                DeucarianPointerCaptureManagerWindow.OpenWindow)
+                                DeucarianPointerCaptureManagerWindow.OpenWindow, navigationToolId: DeucarianToolIds.PointerCapture)
                         },
                         searchTerms: new[]
                         {

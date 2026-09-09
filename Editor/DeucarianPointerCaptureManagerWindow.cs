@@ -15,7 +15,7 @@ namespace Deucarian.PointerCapture.Editor
         public static void OpenWindow()
         {
             DeucarianPointerCaptureManagerWindow window =
-                GetWindow<DeucarianPointerCaptureManagerWindow>("Pointer Capture");
+                DeucarianEditorWindowPages.GetStandalone<DeucarianPointerCaptureManagerWindow>("Pointer Capture");
             window.minSize = new Vector2(520f, 620f);
             window.Show();
         }
@@ -29,6 +29,9 @@ namespace Deucarian.PointerCapture.Editor
         {
             EditorApplication.update -= RepaintWhilePlaying;
         }
+
+        public static IDeucarianEditorPage CreatePage() =>
+            DeucarianEditorImGuiPage.Create<DeucarianPointerCaptureManagerWindow>(DeucarianToolIds.PointerCapture, window => window.OnGUI());
 
         private void OnGUI()
         {
