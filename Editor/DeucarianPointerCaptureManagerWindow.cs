@@ -36,10 +36,10 @@ namespace Deucarian.PointerCapture.Editor
         private void OnGUI()
         {
             using (DeucarianEditorWorkbenchPanelScope page =
-                   DeucarianEditorWorkbenchGUI.BeginSettingsPage(GUILayout.ExpandHeight(true)))
+                   DeucarianEditorWorkbenchGUI.BeginSettingsPage(this, GUILayout.ExpandHeight(true)))
             {
                 scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-                DeucarianEditorChrome.DrawPackageHeader(
+                DeucarianEditorChrome.DrawPackageHeader(this,
                     "Pointer Capture",
                     "Cross-platform pointer-lock policy, lifecycle, and diagnostics.");
 
@@ -49,7 +49,7 @@ namespace Deucarian.PointerCapture.Editor
                 DrawRuntimeStatus();
                 DrawValidationAndFixes();
 
-                DeucarianEditorChrome.DrawFooterVersion(
+                DeucarianEditorChrome.DrawFooterVersion(this,
                     "com.deucarian.pointer-capture");
                 EditorGUILayout.EndScrollView();
             }
@@ -87,10 +87,10 @@ namespace Deucarian.PointerCapture.Editor
             DeucarianPointerCaptureProjectSettings settings = LoadFirstSettings(settingsPaths);
             if (settings == null)
             {
-                EditorGUILayout.HelpBox(
+                DeucarianEditorTextGUI.HelpBox(
                     "No project settings asset exists. Runtime defaults allow capture on Editor, standalone, and WebGL.",
                     MessageType.Info);
-                if (GUILayout.Button(
+                if (DeucarianEditorActionGUI.Button(
                     "Create Project Settings",
                     DeucarianEditorWorkbenchGUI.PrimaryButtonStyle))
                 {
@@ -118,7 +118,7 @@ namespace Deucarian.PointerCapture.Editor
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button(
+                if (DeucarianEditorActionGUI.Button(
                     "Select Settings Asset",
                     DeucarianEditorWorkbenchGUI.SecondaryButtonStyle))
                 {
@@ -128,7 +128,7 @@ namespace Deucarian.PointerCapture.Editor
 
                 if (settingsPaths.Count == 1 &&
                     settingsPaths[0] != CanonicalSettingsAssetPath &&
-                    GUILayout.Button(
+                    DeucarianEditorActionGUI.Button(
                         "Move to Runtime Path",
                         DeucarianEditorWorkbenchGUI.SecondaryButtonStyle))
                 {
@@ -149,16 +149,16 @@ namespace Deucarian.PointerCapture.Editor
                 selected != null ? selected.GetComponent<DeucarianPointerCaptureController>() : null;
             if (selected == null)
             {
-                EditorGUILayout.HelpBox(
+                DeucarianEditorTextGUI.HelpBox(
                     "Select a scene GameObject to configure its pointer capture policy.",
                     MessageType.Info);
             }
             else if (controller == null)
             {
-                EditorGUILayout.HelpBox(
+                DeucarianEditorTextGUI.HelpBox(
                     selected.name + " does not have a pointer capture controller.",
                     MessageType.Warning);
-                if (GUILayout.Button(
+                if (DeucarianEditorActionGUI.Button(
                     "Add Pointer Capture Controller",
                     DeucarianEditorWorkbenchGUI.PrimaryButtonStyle))
                 {
@@ -192,7 +192,7 @@ namespace Deucarian.PointerCapture.Editor
 
             if (!EditorApplication.isPlaying)
             {
-                EditorGUILayout.HelpBox(
+                DeucarianEditorTextGUI.HelpBox(
                     "Enter Play Mode to inspect live controller state and change runtime capture gates.",
                     MessageType.Info);
                 DeucarianEditorChrome.EndSection();
@@ -231,12 +231,12 @@ namespace Deucarian.PointerCapture.Editor
                     }
                     else
                     {
-                        EditorGUILayout.HelpBox(
+                        DeucarianEditorTextGUI.HelpBox(
                             "Detailed runtime diagnostics are disabled in project settings.",
                             MessageType.Info);
                     }
 
-                    bool runtimeAllowed = EditorGUILayout.Toggle(
+                    bool runtimeAllowed = DeucarianEditorInputGUI.Toggle(
                         new GUIContent("Runtime allowed"),
                         snapshot.RuntimeAllowed);
                     if (runtimeAllowed != snapshot.RuntimeAllowed)
@@ -261,7 +261,7 @@ namespace Deucarian.PointerCapture.Editor
                     "circle-alert",
                     "Project settings asset is missing; package defaults are in use.",
                     DeucarianEditorStatus.Warning);
-                if (GUILayout.Button(
+                if (DeucarianEditorActionGUI.Button(
                     "Fix: Create Settings Asset",
                     DeucarianEditorWorkbenchGUI.PrimaryButtonStyle))
                 {
@@ -276,7 +276,7 @@ namespace Deucarian.PointerCapture.Editor
                     DeucarianEditorStatus.Error);
                 foreach (string path in settingsPaths)
                 {
-                    EditorGUILayout.LabelField(path, DeucarianEditorWorkbenchGUI.MiniLabelStyle);
+                    DeucarianEditorTextGUI.LabelField(path, DeucarianEditorWorkbenchGUI.MiniLabelStyle);
                 }
             }
             else if (settingsPaths[0] != CanonicalSettingsAssetPath)
@@ -285,7 +285,7 @@ namespace Deucarian.PointerCapture.Editor
                     "circle-alert",
                     "Settings are outside the runtime Resources path.",
                     DeucarianEditorStatus.Error);
-                if (GUILayout.Button(
+                if (DeucarianEditorActionGUI.Button(
                     "Fix: Move Settings to Runtime Path",
                     DeucarianEditorWorkbenchGUI.PrimaryButtonStyle))
                 {
