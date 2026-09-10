@@ -41,4 +41,3 @@ python C:/Repositories/Package-Registry/Tools/deucarian_package_validator.py --r
 ```
 
 Also run Unity EditMode tests and `git diff --check` before committing.
-
