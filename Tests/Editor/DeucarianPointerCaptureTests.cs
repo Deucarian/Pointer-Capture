@@ -3,6 +3,7 @@ using Deucarian.PointerCapture.Editor;
 using NUnit.Framework;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Deucarian.PointerCapture.Tests
 {
@@ -89,7 +90,14 @@ namespace Deucarian.PointerCapture.Tests
                 Path.Combine(root, "Editor/DeucarianPointerCaptureManagerWindow.cs"));
 
             Assert.AreEqual(0, CountOccurrences(source, "[MenuItem("));
-            StringAssert.Contains("Validation & Fixes", source);
+            StringAssert.Contains("CreatePage()", source);
+            using (var page = DeucarianPointerCaptureManagerWindow.CreatePage())
+            {
+                var platform = page.Root.Q<Foldout>("pointer-platform-details");
+                Assert.That(platform, Is.Not.Null, "Validation remains available inside the package page.");
+                Assert.That(page.Root.Query<UnityEngine.UIElements.Label>().ToList().Exists(label =>
+                    label.text.Contains("settings asset") || label.text.Contains("runtime Resources path")), Is.True);
+            }
         }
 
         [Test]
