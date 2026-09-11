@@ -1,6 +1,7 @@
 using System.Linq;
 using Deucarian.Editor;
 using NUnit.Framework;
+using UnityEngine.UIElements;
 
 namespace Deucarian.PointerCapture.Tests
 {
@@ -8,6 +9,19 @@ namespace Deucarian.PointerCapture.Tests
     {
         private const string PackageId =
             "com.deucarian.pointer-capture";
+
+        [Test]
+        public void ReturningToThePageKeepsPlatformDetailsExpanded()
+        {
+            Assert.IsTrue(DeucarianToolRegistry.TryGet(DeucarianToolIds.PointerCapture, out var tool));
+            using (var page = tool.CreatePage())
+            {
+                var details = page.Root.Q<Foldout>("pointer-platform-details"); details.value = true;
+                page.Deactivate(); page.Activate(null);
+                Assert.AreSame(details, page.Root.Q<Foldout>("pointer-platform-details"));
+                Assert.IsTrue(details.value);
+            }
+        }
 
         [Test]
         public void PackageRegistersStableToolAndCard()
