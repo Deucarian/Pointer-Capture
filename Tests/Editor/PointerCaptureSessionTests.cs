@@ -9,6 +9,12 @@ namespace Deucarian.PointerCapture.Tests
 {
     public sealed class PointerCaptureSessionTests
     {
+        [UnityTearDown]
+        public IEnumerator RestoreEditorMode()
+        {
+            if (Application.isPlaying) yield return new ExitPlayMode();
+        }
+
         [Test]
         public void OldSessionCannotReleaseOrEscapeANewOwnersCapture()
         {
@@ -130,7 +136,8 @@ namespace Deucarian.PointerCapture.Tests
             Assert.That(host != null && host.isActiveAndEnabled, Is.True);
             using (var second = scope.OpenSession()) Assert.That(second, Is.Not.Null);
             scope.Dispose();
-            yield return null;
+            Assert.That(host.isActiveAndEnabled, Is.False);
+            for (int frame = 0; frame < 10 && host != null; frame++) yield return null;
             Assert.That(host == null, Is.True);
             yield return new ExitPlayMode();
         }
