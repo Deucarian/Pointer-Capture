@@ -34,7 +34,7 @@ namespace Deucarian.PointerCapture.Editor
         internal static DeucarianPointerCaptureProjectSettings LoadFirstSettings(
             IReadOnlyList<string> paths)
         {
-            return paths.Count == 0
+            return paths.Count != 1
                 ? null
                 : AssetDatabase.LoadAssetAtPath<DeucarianPointerCaptureProjectSettings>(paths[0]);
         }

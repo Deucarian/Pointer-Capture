@@ -21,12 +21,16 @@ namespace Deucarian.PointerCapture.Editor
         private bool canTest;
         private double nextAvailabilityCheck;
         private Button test;
+        private readonly DeucarianEditorAssetField controllerPicker;
         public IDeucarianEditorPage Page { get; }
 
         internal PointerCapturePage()
         {
             controller = Selection.activeGameObject != null
                 ? Selection.activeGameObject.GetComponent<DeucarianPointerCaptureController>() : null;
+            controllerPicker = new DeucarianEditorAssetField("pointer-controller", typeof(DeucarianPointerCaptureController),
+                () => controller, value => { ReleaseTest(); controller = value as DeucarianPointerCaptureController; Render(); },
+                allowSceneObjects: true);
             var root = new VisualElement();
             workspace = new DeucarianEditorWorkspace(root, Application.productName);
             workspace.Title.text = "Pointer capture";
@@ -57,15 +61,7 @@ namespace Deucarian.PointerCapture.Editor
             card.Root.AddToClassList("dw-feature-settings");
             scroll.Add(card.Root);
             VisualElement recovery = null;
-            var picker = new ObjectField { name = "pointer-controller", objectType = typeof(DeucarianPointerCaptureController),
-                allowSceneObjects = true, value = controller };
-            picker.RegisterValueChangedCallback(evt =>
-            {
-                ReleaseTest();
-                controller = evt.newValue as DeucarianPointerCaptureController;
-                Render();
-            });
-            context.Details.Add(Controls.Field("Controller", picker));
+            context.Details.Add(Controls.Field("Controller", controllerPicker.Root)); controllerPicker.Refresh();
             context.SetState(true);
             if (controller == null)
             {

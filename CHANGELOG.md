@@ -1,5 +1,9 @@
 # Changelog
 
+## Asset workflow — Unreleased
+
+- Retain the scene controller picker across page updates and stop choosing an arbitrary settings asset when multiple candidates exist.
+
 ## [0.1.7] - 2026-09-11
 
 - Present capture configuration, context and isolated preview through native controls while retaining existing target ownership and page state.

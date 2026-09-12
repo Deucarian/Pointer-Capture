@@ -1,5 +1,9 @@
 # Deucarian Pointer Capture
 
+## Asset selection and project defaults
+
+The controller picker remains live while its preview updates. Scene controllers are always selected explicitly. If multiple capture settings assets exist, the editor asks for a deliberate choice instead of taking the first search result; the existing project-settings creation and canonical-location workflow is preserved.
+
 `com.deucarian.pointer-capture` owns the reusable lifecycle around mouse pointer capture. It handles browser pointer-lock state, desktop/editor cursor locking, release and loss cleanup, capture permission, rearming, diagnostics, and package configuration without owning application navigation behavior.
 
 ## Install
