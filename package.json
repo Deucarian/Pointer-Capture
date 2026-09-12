@@ -19,7 +19,7 @@
     "interaction"
   ],
   "dependencies": {
-    "com.deucarian.editor": "1.12.0"
+    "com.deucarian.editor": "1.13.0"
   },
   "samples": [
     {
