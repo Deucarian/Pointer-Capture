@@ -18,6 +18,8 @@
     "Deucarian.PointerCapture.Tests.Editor"
   ],
   "requiredDependencies": [
+    "com.deucarian.common",
+    "com.deucarian.diagnostics",
     "com.deucarian.editor"
   ],
   "optionalVersionDefinedDependencies": [

@@ -34,7 +34,7 @@ namespace Deucarian.PointerCapture.Editor
             var root = new VisualElement();
             workspace = new DeucarianEditorWorkspace(root, Application.productName);
             workspace.Title.text = "Pointer capture";
-            workspace.Subtitle.text = "Keep cursor behavior predictable.";
+            workspace.Subtitle.text = "Set project-wide cursor capture defaults and inspect active sessions.";
             DeucarianEditorWorkspaceNavigation.Populate(workspace, DeucarianToolIds.PointerCapture);
             root.RegisterCallback<KeyDownEvent>(evt => { if (evt.keyCode == KeyCode.Escape) ReleaseTest(); });
             Page = new DeucarianEditorPage(root, activate: _ => Update(), deactivate: ReleaseTest,
@@ -50,8 +50,9 @@ namespace Deucarian.PointerCapture.Editor
             wasPlaying = EditorApplication.isPlaying;
             var scroll = Controls.Scroll("pointer-settings");
             workspace.Content.Add(scroll);
+            BuildProjectDefaults(scroll);
             var context = new DeucarianEditorFeatureSection("pointer-context", "Pointer settings",
-                "Configure how pointer capture behaves for this project.", DeucarianEditorIconIds.Document);
+                "Inspect a live controller or configure a legacy scene override.", DeucarianEditorIconIds.Document);
             context.Root.AddToClassList("dw-feature-context");
             scroll.Add(context.Root);
             var card = new DeucarianEditorFeatureSection("capture-policy", "Capture policy",
@@ -65,8 +66,8 @@ namespace Deucarian.PointerCapture.Editor
             context.SetState(true);
             if (controller == null)
             {
-                card.Details.Add(Controls.Label("Select a controller to configure capture and test its live state.", "dw-muted"));
-                var add = Controls.Button("Add to selected object", () =>
+                card.Details.Add(Controls.Label("No active capture session selected. Project defaults apply without a scene controller. Applications create a shared capture scope at startup.", "dw-muted"));
+                var add = Controls.Button("Add legacy scene override", () =>
                 {
                     if (Selection.activeGameObject == null) return;
                     controller = Undo.AddComponent<DeucarianPointerCaptureController>(Selection.activeGameObject);
@@ -124,7 +125,7 @@ namespace Deucarian.PointerCapture.Editor
                 .IsCurrentProjectAllowed(Manager.GetCurrentPlatform()) ? "Capture allowed" : "Capture blocked");
             if (settings != null)
             {
-                Bind(details, settings).Remaining();
+                Bind(details, settings).Property("diagnosticsEnabled", "Detailed diagnostics");
                 details.RegisterCallback<SerializedPropertyChangeEvent>(_ => DeucarianPointerCaptureProjectSettings.Reload());
                 details.Add(Controls.Button("Select settings asset", () => { Selection.activeObject = settings; EditorGUIUtility.PingObject(settings); }));
             }
@@ -148,6 +149,41 @@ namespace Deucarian.PointerCapture.Editor
                 row.Toggle(null, "Runtime allowed", () => item != null && item.RuntimeCaptureAllowed,
                     value => { if (item != null) item.SetRuntimeCaptureAllowed(value); });
             }
+        }
+
+        private void BuildProjectDefaults(VisualElement parent)
+        {
+            var section = new DeucarianEditorFeatureSection("pointer-project-defaults", "Project defaults",
+                "Used by application capture scopes in every scene. Legacy controller overrides stay unchanged.", DeucarianEditorIconIds.Pointer);
+            parent.Add(section.Root);
+            var paths = Manager.FindSettingsAssetPaths();
+            var settings = AssetDatabase.LoadAssetAtPath<DeucarianPointerCaptureProjectSettings>(Manager.CanonicalSettingsAssetPath);
+            if (settings != null) Bind(section.Details, settings).Remaining("diagnosticsEnabled");
+            else if (paths.Count == 0)
+            {
+                var form = Live(section.Details);
+                form.Note(() => "Using package defaults. Changing a value creates editable project settings; no scene object is needed.");
+                DefaultToggle(form, "enableCapture", "Allow capture");
+                DefaultToggle(form, "hideCursor", "Hide cursor");
+                DefaultToggle(form, "restorePointerPositionOnRelease", "Restore pointer position");
+                DefaultToggle(form, "requireNeutralInputBeforeRearming", "Wait for a fresh input action");
+            }
+            else section.Details.Add(Controls.Label("Review the settings asset location under Platform details before editing project defaults.", "dw-muted"));
+            section.Details.RegisterCallback<SerializedPropertyChangeEvent>(_ => DeucarianPointerCaptureProjectSettings.Reload());
+        }
+
+        private void DefaultToggle(DeucarianEditorWorkspaceForm form, string property, string label)
+        {
+            form.Toggle("pointer-default-" + property, label, () => true, value =>
+            {
+                Manager.CreateProjectSettings();
+                var asset = AssetDatabase.LoadAssetAtPath<DeucarianPointerCaptureProjectSettings>(Manager.CanonicalSettingsAssetPath);
+                if (asset == null) return;
+                using (var serialized = new SerializedObject(asset))
+                { serialized.FindProperty(property).boolValue = value; serialized.ApplyModifiedProperties(); }
+                DeucarianPointerCaptureProjectSettings.Reload();
+                Render();
+            });
         }
 
         private void Test()
@@ -176,6 +212,11 @@ namespace Deucarian.PointerCapture.Editor
             {
                 nextAvailabilityCheck = EditorApplication.timeSinceStartup + .5;
                 canTest = CanTest();
+                if (controller == null && EditorApplication.isPlaying)
+                {
+                    var active = Object.FindObjectsByType<DeucarianPointerCaptureController>(FindObjectsSortMode.None);
+                    if (active.Length == 1) { controller = active[0]; Render(); return; }
+                }
             }
             foreach (var form in live) form.Refresh();
             if (test != null)
