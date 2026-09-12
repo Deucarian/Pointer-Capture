@@ -2,6 +2,8 @@
   "name": "Deucarian.PointerCapture",
   "rootNamespace": "Deucarian.PointerCapture",
   "references": [
+    "Deucarian.Common",
+    "Deucarian.Diagnostics",
     "UnityEngine.WebGLModule"
   ],
   "includePlatforms": [],

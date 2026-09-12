@@ -25,7 +25,8 @@ This package must not own:
 
 - `com.deucarian.editor`: shared Deucarian editor shell used by the package management window.
 
-Runtime code remains input-system agnostic and has no package dependency.
+Runtime code remains input-system agnostic. Common owns safe host cleanup;
+Diagnostics owns registration and sanitized reports for active capture hosts.
 
 ## Policies
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.0] - 2026-09-12
+
+- Add package-owned application capture scopes and borrowed sessions; preserve scene-controller compatibility. Show project defaults before optional live controllers.
+
 ## Asset workflow — Unreleased
 
 - Retain the scene controller picker across page updates and stop choosing an arbitrary settings asset when multiple candidates exist.
