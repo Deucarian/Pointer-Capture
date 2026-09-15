@@ -1,5 +1,9 @@
 # Deucarian Pointer Capture
 
+## Asset selection and project defaults
+
+Project defaults are configurable without a scene object. An optional controller picker inspects live state or legacy scene overrides; Play Mode selects an available controller only when there is exactly one. Ambiguous settings assets require repair before project defaults can be edited.
+
 `com.deucarian.pointer-capture` owns the reusable lifecycle around mouse pointer capture. It handles browser pointer-lock state, desktop/editor cursor locking, release and loss cleanup, capture permission, rearming, diagnostics, and package configuration without owning application navigation behavior.
 
 ## Install
@@ -13,6 +17,20 @@ Open the package window at:
 Configuration, runtime status, validation, and fix actions all live in this one window.
 
 ## Runtime setup
+
+Create one `PointerCaptureScope` in the application's composition root. It owns
+its persistent Unity host; callers borrow an `IPointerCaptureSession` from
+`scope.OpenSession()`. Configure Viewer Navigation with that session before
+initializing it. Disposing a session releases only its own capture; disposing
+the application scope releases the host. Do not create one application scope
+per viewer. Installation itself does not start cursor capture.
+
+Existing scene controllers and unconfigured Viewer Navigation callers remain
+supported by `PointerCaptureCompatibility.OpenSceneSession`. That compatibility
+route remains scene-scoped; it is not an automatically shared global service.
+New multi-scene applications should explicitly compose the shared scope.
+
+### Existing scene-controller setup
 
 Add `DeucarianPointerCaptureController` to the application object that coordinates navigation input. Capture permission is the conjunction of:
 

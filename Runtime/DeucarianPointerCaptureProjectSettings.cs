@@ -14,6 +14,15 @@ namespace Deucarian.PointerCapture
         [SerializeField] private bool allowInStandalone = true;
         [SerializeField] private bool allowInWebGL = true;
         [SerializeField] private bool diagnosticsEnabled = true;
+        [SerializeField] private bool hideCursor = true;
+        [SerializeField] private bool restorePointerPositionOnRelease = true;
+        [SerializeField] private bool requireNeutralInputBeforeRearming = true;
+        [SerializeField] private DeucarianPointerCaptureReleasePolicy releasePolicy = DeucarianPointerCaptureReleasePolicy.All;
+
+        public bool HideCursor => hideCursor;
+        public bool RestorePointerPositionOnRelease => restorePointerPositionOnRelease;
+        public bool RequireNeutralInputBeforeRearming => requireNeutralInputBeforeRearming;
+        public DeucarianPointerCaptureReleasePolicy ReleasePolicy => releasePolicy;
 
         private static bool loadAttempted;
         private static DeucarianPointerCaptureProjectSettings cachedSettings;
